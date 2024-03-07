@@ -4,6 +4,10 @@
 namespace Transformations
 {
 
+    /*
+    Initialize transformation pipelanes between ETRS and WGS84 for function use
+    */
+
     PJ_CONTEXT *ctx = proj_context_create();
 
     const char *latLongToETRSPipeline = "+proj=pipeline +step +proj=axisswap +order=2,1 +step +proj=unitconvert +xy_in=deg +xy_out=rad +step +proj=utm +zone=35 +ellps=GRS80";

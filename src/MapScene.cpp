@@ -66,6 +66,9 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QToolTip::showText(QCursor::pos(), tooltipText, mapView);
 }
 
+    /*
+    Load images from imagesFolder, read the data files and assign boundaries for the viewport.
+    */
 void MapScene::loadImagesFromFolder(const QString &folderPath)
 {
     QStringList filters;
