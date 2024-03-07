@@ -1,6 +1,6 @@
 # Turku Archipelago Tile Renderer (Interview Pre-Task)
 
-This project aims to create a tile renderer for the Turku Archipelago, providing seamless scrolling of the map, the ability to jump to specific positions, and add markers based on latitude and longitude coordinates.
+This project aims to create a tile renderer for the Turku Archipelago, providing seamless scrolling of the map, the ability to jump to specific positions, and add markers based on latitude and longitude coordinates. Coordinate transformations between WGS84 and ETRS89 are handled by Proj library.
 
 ## Necessary Dependencies
 
