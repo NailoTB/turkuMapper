@@ -15,7 +15,7 @@ The codebase is primarily built around Qt subclasses. The structure is organized
 
 - **src/**: Contains the source code files for Qt subclasses.
   - `main.cpp`: Entry point of the application.
-  - `MapMainWindow.cpp`: Implementation of the main application window. Inherited from QtMainWindow
+  - `MapMainWindow.cpp`: Implementation of the main application window. Holds the information of toolbars and visual scenes, and handles the signal transfer between different widgets. Inherited from QtMainWindow
   - `MapToolBar.cpp`: The main toolbar containing latitude and longitude marker input functionality. Inherited from QtToolBar.
   - `MapBookmarks.cpp`: The secondary toolbar containing bookmarks. Inherited from QtToolBar.
   - `MapScene.cpp`: The main visual scene. Handles reading in the tiles and rendering them. Inherited from QtGraphicsScene.

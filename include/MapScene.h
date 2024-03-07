@@ -12,28 +12,28 @@
 #include <QDir>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
-
+#include <QTimer>
 class MapScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
     explicit MapScene(QGraphicsScene *parent = 0);
-    void generateMarker(std::pair<double, double> latLongPair);
-    void jumpTo(std::pair<double, double> latLongPair);
+    void generateMarker(std::pair<double, double> &latLongPair);
+    void jumpTo(std::pair<double, double> &latLongPair);
     void loadImagesFromFolder(const QString &folderPath);
 signals:
 
 protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent*) override;
 
 private:
     QDir imagesFolder;
-
-    std::pair<double,double> mapXBoundary;
-    std::pair<double,double> mapYBoundary;
-    bool coordinatesWithinBoundaries(const std::pair<int, int>& pixelCoordPair);
     QGraphicsView *mapView;
+
+    std::pair<int,int> mapXBoundary;
+    std::pair<int,int> mapYBoundary;
+    bool coordinatesWithinBoundaries(const std::pair<int, int>& pixelCoordPair);
 };
 
 #endif // MAPSCENE_H

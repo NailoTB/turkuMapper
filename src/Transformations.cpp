@@ -16,7 +16,7 @@ namespace Transformations
     PJ *latLongToETRStransformer = proj_create(ctx, latLongToETRSPipeline);
     PJ *ETRStoLatLongTransformer = proj_create(ctx, ETRSToLatLongPipeline);
 
-    std::pair<double, double> transformLatLongToETRS(std::pair<double, double> latLongPair)
+    std::pair<double, double> transformLatLongToETRS(std::pair<double, double> &latLongPair)
     {
         if (!latLongToETRStransformer)
         {
@@ -33,7 +33,7 @@ namespace Transformations
         return std::make_pair(output_coord.xy.x, output_coord.xy.y);
     }
 
-    std::pair<double, double> transformPixelCoordinatesTolatLong(std::pair<int, int> pixelCoordinates)
+    std::pair<double, double> transformPixelCoordinatesTolatLong(std::pair<int, int> &pixelCoordinates)
     {
         if (!ETRStoLatLongTransformer)
         {

@@ -18,7 +18,7 @@ bool MapScene::coordinatesWithinBoundaries(const std::pair<int, int> &pixelCoord
     return withinX && withinY;
 }
 
-void MapScene::generateMarker(std::pair<double, double> latLongPair)
+void MapScene::generateMarker(std::pair<double, double> &latLongPair)
 {
     double markerSize = 10.0;
     double markerOffset = markerSize / 2.0;
@@ -39,7 +39,7 @@ void MapScene::generateMarker(std::pair<double, double> latLongPair)
     }
 }
 
-void MapScene::jumpTo(std::pair<double, double> latLongPair)
+void MapScene::jumpTo(std::pair<double, double> &latLongPair)
 
 {
     std::pair<double, double> ETRSPair = Transformations::transformLatLongToETRS(latLongPair);
@@ -54,21 +54,24 @@ void MapScene::jumpTo(std::pair<double, double> latLongPair)
     }
 }
 
-void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
     QPointF mousePos = event->scenePos();
-    std::pair<int, int> pixelCoordinates = std::make_pair(mousePos.x(), mousePos.y());
-    auto latLong = Transformations::transformPixelCoordinatesTolatLong(pixelCoordinates);
+    if (event->button() == Qt::LeftButton)
+    {
+        std::pair<int, int> pixelCoordinates = std::make_pair(mousePos.x(), mousePos.y());
+        auto latLong = Transformations::transformPixelCoordinatesTolatLong(pixelCoordinates);
 
-    QString tooltipText = QString("(%1, %2)").arg(latLong.first).arg(latLong.second);
-
-    QToolTip::showText(QCursor::pos(), tooltipText, mapView);
+        QString tooltipText = QString("(%1, %2)").arg(latLong.first).arg(latLong.second);
+        QTimer::singleShot(200, [tooltipText]()
+                           { QToolTip::showText(QCursor::pos(), tooltipText); });
+    }
 }
 
-    /*
-    Load images from imagesFolder, read the data files and assign boundaries for the viewport.
-    */
+/*
+Load images from imagesFolder, read the data files and assign boundaries for the viewport.
+*/
 void MapScene::loadImagesFromFolder(const QString &folderPath)
 {
     QStringList filters;
@@ -102,9 +105,9 @@ void MapScene::loadImagesFromFolder(const QString &folderPath)
             lines.append(line);
         }
 
-        auto pixelSize = lines[0].toDouble();
-        auto xCoordinate = (lines[lines.size() - 2].toDouble() - 1) / pixelSize;  // make sure that this doesn't go bonkers
-        auto yCoordinate = -(lines[lines.size() - 1].toDouble() - 1) / pixelSize; // change to int
+        double pixelSize = lines[0].toDouble();
+        double xCoordinate = (lines[lines.size() - 2].toDouble() - 1) / pixelSize;
+        double yCoordinate = -(lines[lines.size() - 1].toDouble() - 1) / pixelSize;
 
         xCoordinates.push_back(xCoordinate);
         yCoordinates.push_back(yCoordinate);
