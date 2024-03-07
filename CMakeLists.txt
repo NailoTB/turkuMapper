@@ -24,6 +24,7 @@ src/MapMainWindow.cpp
 src/MapScene.cpp
 src/MapToolBar.cpp
 src/MapBookmarks.cpp
+src/Transformations.cpp
 include/MapMainWindow.h
 include/MapScene.h
 include/MapToolBar.h

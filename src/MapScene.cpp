@@ -24,7 +24,7 @@ void MapScene::generateMarker(std::pair<double, double> latLongPair)
     double markerOffset = markerSize / 2.0;
 
     std::pair<double, double> ETRSPair = Transformations::transformLatLongToETRS(latLongPair);
-    std::pair<int, int> pixelCoordinates = Transformations::projectionToPixelCoordinates(ETRSPair);
+    std::pair<int, int> pixelCoordinates = Transformations::mapCoordinatesToPixelCoordinates(ETRSPair);
 
     if (coordinatesWithinBoundaries(pixelCoordinates))
     {
@@ -35,7 +35,7 @@ void MapScene::generateMarker(std::pair<double, double> latLongPair)
     }
     else
     {
-        qDebug() << "Bruh";
+        std::cerr << "Coordinates out of bounds. " << '\n';
     }
 }
 
@@ -43,10 +43,14 @@ void MapScene::jumpTo(std::pair<double, double> latLongPair)
 
 {
     std::pair<double, double> ETRSPair = Transformations::transformLatLongToETRS(latLongPair);
-    std::pair<int, int> pixelCoordinates = Transformations::projectionToPixelCoordinates(ETRSPair);
+    std::pair<int, int> pixelCoordinates = Transformations::mapCoordinatesToPixelCoordinates(ETRSPair);
     if (coordinatesWithinBoundaries(pixelCoordinates))
     {
         mapView->centerOn(pixelCoordinates.first, pixelCoordinates.second);
+    }
+    else
+    {
+        std::cerr << "Coordinates out of bounds. " << '\n';
     }
 }
 
@@ -55,7 +59,7 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     QPointF mousePos = event->scenePos();
     std::pair<int, int> pixelCoordinates = std::make_pair(mousePos.x(), mousePos.y());
-    auto latLong = Transformations::transformETRSTolatLong(pixelCoordinates);
+    auto latLong = Transformations::transformPixelCoordinatesTolatLong(pixelCoordinates);
 
     QString tooltipText = QString("(%1, %2)").arg(latLong.first).arg(latLong.second);
 
@@ -121,7 +125,5 @@ void MapScene::loadImagesFromFolder(const QString &folderPath)
     mapYBoundary.first = yCoordinates[0];
     mapYBoundary.second = yCoordinates[yCoordinates.size() - 1] + yExtent;
 
-    qDebug() << mapXBoundary;
-    qDebug() << mapYBoundary;
     qDebug() << "Loading complete!";
 }

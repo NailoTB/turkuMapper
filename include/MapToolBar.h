@@ -6,6 +6,9 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include <iostream>
+#include <cstring> 
+
 class MapToolBar : public QToolBar
 {
     Q_OBJECT

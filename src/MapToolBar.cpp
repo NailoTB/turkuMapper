@@ -6,18 +6,19 @@ MapToolBar::MapToolBar(QToolBar *parent) : QToolBar(parent)
     jumpButton = new QPushButton("Jump to", this);
 
     longitudeLabel = new QLabel("Longitude:", this);
-    latitudeLabel = new QLabel("Latitude:", this); //Longlat is reversed lol
-    longitude = new QLineEdit(this); 
+    latitudeLabel = new QLabel("Latitude:", this);
+    longitude = new QLineEdit(this);
     latitude = new QLineEdit(this);
 
-    connect(submitButton, &QPushButton::clicked, this, &MapToolBar::submitButtonPressed);
-    connect(jumpButton, &QPushButton::clicked, this, &MapToolBar::jumpButtonPressed);
     addWidget(submitButton);
     addWidget(jumpButton);
     addWidget(latitudeLabel);
     addWidget(latitude);
     addWidget(longitudeLabel);
     addWidget(longitude);
+
+    connect(submitButton, &QPushButton::clicked, this, &MapToolBar::submitButtonPressed);
+    connect(jumpButton, &QPushButton::clicked, this, &MapToolBar::jumpButtonPressed);
 }
 
 void MapToolBar::submitButtonPressed()
@@ -30,6 +31,10 @@ void MapToolBar::submitButtonPressed()
     {
         emit submitPressed(std::make_pair(latitudeValue, longitudeValue));
     }
+    else
+    {
+        std::cerr << "Invalid coordinates: " << latitudeValue << ' ' << longitudeValue << '\n';
+    }
 }
 void MapToolBar::jumpButtonPressed()
 {
@@ -40,5 +45,9 @@ void MapToolBar::jumpButtonPressed()
     if (longitudeOk && latitudeOk)
     {
         emit jumpPressed(std::make_pair(latitudeValue, longitudeValue));
+    }
+    else
+    {
+        std::cerr << "Invalid coordinates: " << latitudeValue << ' ' << longitudeValue << '\n';
     }
 }
